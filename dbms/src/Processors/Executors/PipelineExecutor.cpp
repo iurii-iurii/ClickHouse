@@ -85,7 +85,7 @@ void PipelineExecutor::buildGraph()
                 edge_ptr->to = proc_num;
             }
 
-            output_port.setVersion(&edge_ptr.version);
+            output_port.setVersion(&edge_ptr->version);
         }
     }
 }
