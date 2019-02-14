@@ -22,7 +22,7 @@ private:
         UInt64 prev_version = 0;
     };
 
-    using Edges = std::vector<Edge>;
+    using Edges = std::list<Edge>;
 
     enum class ExecStatus
     {

@@ -49,17 +49,19 @@ void PipelineExecutor::buildGraph()
                 throwUnknownProcessor(proc, cur, true);
 
             UInt64 proc_num = it->second;
-            bool new_edge = true;
-            for (UInt64 edge = 0; new_edge && edge < graph[node].backEdges.size(); ++edge)
-                if (graph[node].backEdges[edge].to == proc_num)
-                    new_edge = false;
+            Edge * edge_ptr = nullptr;
 
-            if (new_edge)
+            for (auto & edge : graph[node].backEdges)
+                if (edge.to == proc_num)
+                    edge_ptr = &edge;
+
+            if (!edge_ptr)
             {
-                graph[node].backEdges.emplace_back();
-                graph[node].backEdges.back().to = proc_num;
-                input_port.setVersion(&graph[node].backEdges.back().version);
+                edge_ptr = &graph[node].backEdges.emplace_back();
+                edge_ptr->to = proc_num;
             }
+
+            input_port.setVersion(&edge_ptr->version);
         }
 
         for (OutputPort & output_port : processors[node]->getOutputs())
@@ -71,17 +73,19 @@ void PipelineExecutor::buildGraph()
                 throwUnknownProcessor(proc, cur, true);
 
             UInt64 proc_num = it->second;
-            bool new_edge = true;
-            for (UInt64 edge = 0; new_edge && edge < graph[node].directEdges.size(); ++edge)
-                if (graph[node].directEdges[edge].to == proc_num)
-                    new_edge = false;
+            Edge * edge_ptr = nullptr;
 
-            if (new_edge)
+            for (auto & edge : graph[node].directEdges)
+                if (edge.to == proc_num)
+                    edge_ptr = &edge;
+
+            if (!edge_ptr)
             {
-                graph[node].directEdges.emplace_back();
-                graph[node].directEdges.back().to = proc_num;
-                output_port.setVersion(&graph[node].directEdges.back().version);
+                edge_ptr = &graph[node].directEdges.emplace_back();
+                edge_ptr->to = proc_num;
             }
+
+            output_port.setVersion(&edge_ptr.version);
         }
     }
 }
