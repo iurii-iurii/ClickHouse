@@ -58,6 +58,8 @@ public:
                 Block({ColumnWithTypeAndName{ ColumnUInt64::create(), std::make_shared<DataTypeUInt64>(), "number" }}))
         , sleep_useconds(sleep_useconds) {}
 
+    String getName() const override { return "SleepyTransform"; }
+
 protected:
     void transform(Block &) override
     {
