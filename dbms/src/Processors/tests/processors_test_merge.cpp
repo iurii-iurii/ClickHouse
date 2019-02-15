@@ -76,7 +76,7 @@ public:
                 if (!inputs[i].isFinished())
                 {
                     all_inputs_finished = false;
-                    bool needed = positions[i] < blocks[i].rows();
+                    bool needed = positions[i] >= blocks[i].rows();
                     if (needed)
                     {
                         inputs[i].setNeeded();
