@@ -278,9 +278,13 @@ try
         connect(source2->getPort(), transform2->getInputPort());
         connect(source3->getPort(), transform3->getInputPort());
 
-        connect(transform1->getOutputPort(), merge->getInputs()[0]);
-        connect(transform2->getOutputPort(), merge->getInputs()[1]);
-        connect(transform3->getOutputPort(), merge->getInputs()[2]);
+        connect(transform1->getOutputPort(), limit1->getInputPort());
+        connect(transform2->getOutputPort(), limit2->getInputPort());
+        connect(transform3->getOutputPort(), limit3->getInputPort());
+
+        connect(limit1->getOutputPort(), merge->getInputs()[0]);
+        connect(limit2->getOutputPort(), merge->getInputs()[1]);
+        connect(limit3->getOutputPort(), merge->getInputs()[2]);
 
         connect(merge->getOutputPort(), limit_fin->getInputPort());
         connect(limit_fin->getOutputPort(), sink->getPort());
