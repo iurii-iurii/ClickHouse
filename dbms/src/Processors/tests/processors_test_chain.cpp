@@ -130,7 +130,7 @@ try
         auto transform1 = std::make_shared<SleepyTransform>(100000);
         auto transform2 = std::make_shared<SleepyTransform>(100000);
         auto transform3 = std::make_shared<SleepyTransform>(100000);
-        auto limit = std::make_shared<LimitTransform>(source->getPort().getHeader(), 100, 0);
+        auto limit = std::make_shared<LimitTransform>(source->getPort().getHeader(), 20, 0);
         auto sink = std::make_shared<PrintSink>("");
 
         connect(source->getPort(), transform1->getInputPort());
