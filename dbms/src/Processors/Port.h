@@ -191,6 +191,9 @@ public:
 
     void setNeeded()
     {
+        if (version)
+            ++(*version);
+
         assumeConnected();
         state->setNeeded();
     }

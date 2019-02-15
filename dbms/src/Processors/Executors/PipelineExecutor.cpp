@@ -127,11 +127,13 @@ void PipelineExecutor::processFinishedExecutionQueueSafe()
         processFinishedExecutionQueue();
 }
 
-bool PipelineExecutor::addProcessorToPrepareQueueIfCan(Edge & edge)
+bool PipelineExecutor::addProcessorToPrepareQueueIfUpdated(Edge & edge)
 {
     /// Don't add processor if nothing was read from port.
     if (edge.version == edge.prev_version)
         return false;
+
+    edge.prev_version = edge.version;
 
     auto & node = graph[edge.to];
     if (node.status == ExecStatus::Idle)
@@ -174,6 +176,7 @@ void PipelineExecutor::addJob(UInt64 pid)
 void PipelineExecutor::addAsyncJob(UInt64 pid)
 {
     graph[pid].processor->schedule(event_counter);
+    graph[pid].status = ExecStatus::Async;
     ++num_tasks_to_wait;
 }
 
@@ -186,10 +189,10 @@ void PipelineExecutor::prepareProcessor(UInt64 pid, bool async)
     auto add_neighbours_to_prepare_queue = [&, this]
     {
         for (auto & edge : node.directEdges)
-            addProcessorToPrepareQueueIfCan(edge);
+            addProcessorToPrepareQueueIfUpdated(edge);
 
         for (auto & edge : node.backEdges)
-            addProcessorToPrepareQueueIfCan(edge);
+            addProcessorToPrepareQueueIfUpdated(edge);
     };
 
     switch (status)

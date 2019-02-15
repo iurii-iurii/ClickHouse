@@ -69,14 +69,14 @@ public:
 
     Status prepare() override
     {
+        if (active)
+            return Status::Wait;
+
         if (output.isFinished())
             return Status::Finished;
 
         if (!output.canPush())
             return Status::PortFull;
-
-        if (active)
-            return Status::Wait;
 
         if (!current_block)
             return Status::Async;

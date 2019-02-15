@@ -71,7 +71,7 @@ private:
     void addChildlessProcessorsToQueue();
     void processFinishedExecutionQueue();
     void processFinishedExecutionQueueSafe();
-    bool addProcessorToPrepareQueueIfCan(Edge & edge);
+    bool addProcessorToPrepareQueueIfUpdated(Edge & edge);
     void processPrepareQueue();
     void processAsyncQueue();
     void addJob(UInt64 pid);
