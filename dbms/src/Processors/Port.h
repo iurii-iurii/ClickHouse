@@ -206,6 +206,9 @@ public:
 
     void close()
     {
+        if (version && !isFinished())
+            ++(*version);
+
         assumeConnected();
         state->close();
     }
@@ -255,6 +258,9 @@ public:
 
     void finish()
     {
+        if (version && !isFinished())
+            ++(*version);
+
         assumeConnected();
         state->finish();
     }
