@@ -270,7 +270,7 @@ try
         auto limit2 = std::make_shared<LimitTransform>(source2->getPort().getHeader(), 20, 0);
         auto limit3 = std::make_shared<LimitTransform>(source3->getPort().getHeader(), 20, 0);
 
-        auto merge = std::make_shared<MergingSortedProcessor>(source1->getPort(), 3);
+        auto merge = std::make_shared<MergingSortedProcessor>(source1->getPort().getHeader(), 3);
         auto limit_fin = std::make_shared<LimitTransform>(source1->getPort().getHeader(), 45, 0);
         auto sink = std::make_shared<PrintSink>("");
 
